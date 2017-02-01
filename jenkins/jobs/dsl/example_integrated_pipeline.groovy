@@ -1,4 +1,4 @@
-import base.CartridgeHelper
+import jenkins.jobs.dsl.base.CartridgeHelper
 
 // Folders
 def workspaceFolderName = "${WORKSPACE_NAME}"

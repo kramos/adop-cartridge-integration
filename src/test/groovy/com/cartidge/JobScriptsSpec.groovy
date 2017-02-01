@@ -32,7 +32,7 @@ class JobScriptsSpec extends Specification {
 
     static List<File> getJobFiles() {
         List<File> files = []
-        new File('jenkins/jobs/dsl').eachFileRecurse(FileType.FILES) {
+        new File('jenkins/jobs/dsl').eachFile(FileType.FILES) {
             if (it =~ /.*?\.groovy$/) files << it
         }
         files

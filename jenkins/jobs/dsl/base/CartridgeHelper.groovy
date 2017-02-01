@@ -1,4 +1,4 @@
-package base
+package jenkins.jobs.dsl.base
 
 /**
  * Re-usable goodness for building Jenkins jobs
