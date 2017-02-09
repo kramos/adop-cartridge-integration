@@ -25,7 +25,6 @@ def logIntBuild = CartridgeHelper.getIntegratedJob(this, projectFolderName + '/I
         'jobDescription': 'This job logs a new composite configuration (integration) of builds.',
         'triggerDownstreamJob': projectFolderName + '/Integrated_SIT_Deploy',
         'nextCopyArtifactsFromBuild': '${BUILD_NUMBER}',
-        'manualTrigger': 'true',
     ]
 )
 

@@ -21,7 +21,7 @@ def variables = [
 ]
 
 // Jobs
-def logIntBuild = CartridgeHelper.getIntegratedJob(this, projectFolderName + '/Integrated_Build', variables + [
+def logIntBuild = CartridgeHelper.getIntegratedJob(this, projectFolderName + '/Prod_Integrated_Build', variables + [
         'jobDescription': 'This job logs a new composite configuration (integration) of builds.',
         'triggerDownstreamJob': projectFolderName + '/Integrated_PPE_Deploy',
         'nextCopyArtifactsFromBuild': '${BUILD_NUMBER}',
@@ -30,7 +30,7 @@ def logIntBuild = CartridgeHelper.getIntegratedJob(this, projectFolderName + '/I
 )
 
 def intPPEDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integrated_PPE_Deploy', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
+        'copyArtifactsFromJob': projectFolderName + '/Prod_Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/PPE_Test',
         'jobDescription': 'This job deploys the integrated application to the PPE environment',
@@ -39,7 +39,7 @@ def intPPEDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integ
 
 
 def intPPETest = CartridgeHelper.getShellJob(this, projectFolderName + '/PPE_Test', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
+        'copyArtifactsFromJob': projectFolderName + '/Prod_Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/Integrated_Prod_Deploy',
         'jobDescription': 'This job runs automated testing in the PPE environment',
@@ -48,7 +48,7 @@ def intPPETest = CartridgeHelper.getShellJob(this, projectFolderName + '/PPE_Tes
 
 
 def intProdDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integrated_Prod_Deploy', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
+        'copyArtifactsFromJob': projectFolderName + '/Prod_Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/Prod_Test',
         'jobDescription': 'This job deploys the integrated application to the Prod environment',
@@ -57,7 +57,7 @@ def intProdDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Inte
 
 
 def intProdTest = CartridgeHelper.getShellJob(this, projectFolderName + '/Prod_Test', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
+        'copyArtifactsFromJob': projectFolderName + '/Prod_Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/NA',
         'jobDescription': 'This job runs automated testing in the Prod environment',
@@ -67,8 +67,8 @@ def intProdTest = CartridgeHelper.getShellJob(this, projectFolderName + '/Prod_T
 // Views
 def rolePipelineView = CartridgeHelper.basePipelineView(
     this,
-    projectFolderName + '/Integrated_Pipeline',
-    projectFolderName + '/Integrated_Build',
+    projectFolderName + '/Production_Pipeline',
+    projectFolderName + '/Prod_Integrated_Build',
     'Logs an integrated build and deploys it to PPE and Production.'
 )
 
