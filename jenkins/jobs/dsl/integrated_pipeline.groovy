@@ -42,47 +42,24 @@ def intSITDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integ
 def intSITTest = CartridgeHelper.getShellJob(this, projectFolderName + '/SIT_Test', variables + [
         'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
-        'triggerDownstreamJob': projectFolderName + '/Integrated_PPE_Deploy',
+        'triggerDownstreamJob': projectFolderName + '/Publish',
         'jobDescription': 'This job runs automated testing in the SIT environment',
     ]
 )
 
-
-def intPPEDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integrated_PPE_Deploy', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
-        'nextCopyArtifactsFromBuild': '${B}',
-        'triggerDownstreamJob': projectFolderName + '/PPE_Test',
-        'jobDescription': 'This job deploys the integrated application to the PPE environment',
-    ]
-)
-
-
-def intPPETest = CartridgeHelper.getShellJob(this, projectFolderName + '/PPE_Test', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
-        'nextCopyArtifactsFromBuild': '${B}',
-        'triggerDownstreamJob': projectFolderName + '/Integrated_Prod_Deploy',
-        'jobDescription': 'This job runs automated testing in the PPE environment',
-    ]
-)
-
-
-def intProdDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integrated_Prod_Deploy', variables + [
-        'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
-        'nextCopyArtifactsFromBuild': '${B}',
-        'triggerDownstreamJob': projectFolderName + '/Prod_Test',
-        'jobDescription': 'This job deploys the integrated application to the Prod environment',
-    ]
-)
-
-
-def intProdTest = CartridgeHelper.getShellJob(this, projectFolderName + '/Prod_Test', variables + [
+def intPublish = CartridgeHelper.getShellAuthJob(this, projectFolderName + '/Publish', variables + [
         'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/NA',
-        'jobDescription': 'This job runs automated testing in the Prod environment',
+        'jobDescription': 'This job publishes this build to later pipelines',
+        'jobCommand': 'FOLDER=`echo ' + projectFolderName + ''' | sed "s/\\//\\/job\\//g"`; 
+                      |set +x
+                      |echo TRIGGERING INTEGRATION BUILD TO PUBLISH THE PRODUCT OF THIS PIPELINE
+                      |echo
+                      |echo TODO RANDOM is not a good name
+                      |docker exec jenkins curl -s -X POST ${USERNAME_JENKINS}:${PASSWORD_JENKINS}@localhost:8080/jenkins/job/${FOLDER}/job/Integrated_Build/buildWithParameters?COMPONENT_NAME=${RANDOM}\\&COMPONENT_BUILD_NUMBER=${B}',
     ]
 )
-
 
 
 // Views
