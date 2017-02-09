@@ -25,7 +25,6 @@ def logIntBuild = CartridgeHelper.getIntegratedJob(this, projectFolderName + '/P
         'jobDescription': 'This job logs a new composite configuration (integration) of builds.',
         'triggerDownstreamJob': projectFolderName + '/Integrated_PPE_Deploy',
         'nextCopyArtifactsFromBuild': '${BUILD_NUMBER}',
-        'manualTrigger': 'true',
     ]
 )
 
@@ -41,6 +40,7 @@ def intPPEDeploy = CartridgeHelper.getShellJob(this, projectFolderName + '/Integ
 def intPPETest = CartridgeHelper.getShellJob(this, projectFolderName + '/PPE_Test', variables + [
         'copyArtifactsFromJob': projectFolderName + '/Prod_Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
+        'manualTrigger': 'true',
         'triggerDownstreamJob': projectFolderName + '/Integrated_Prod_Deploy',
         'jobDescription': 'This job runs automated testing in the PPE environment',
     ]
