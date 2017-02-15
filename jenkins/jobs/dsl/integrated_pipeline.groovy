@@ -57,8 +57,8 @@ def intPublish = CartridgeHelper.getShellAuthJob(this, projectFolderName + '/Pub
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/NA',
         'jobDescription': 'This job publishes this build to later pipelines',
-        'jobCommand': 'FOLDER=`echo ' + projectFolderName + ''' | sed "s/\\/[^/]\\+$//" | sed "s/\\//\\/job\\//g"`;
-                      |INT_BUILD_NAME=`echo '''.stripMargin() + projectFolderName + ''' | sed "s/.*\\/\\(\\w\\+\\)$/\\1/"`;
+        'jobCommand': 'FOLDER=`echo ' + projectFolderName + ' | sed "s/\\/[^/]\\+\\$//" | sed "s/\\//\\/job\\//g"`;' + '''
+                      |INT_BUILD_NAME=`echo '''.stripMargin() + projectFolderName + ''' | sed "s/.*\\/\\(\\w\\+\\)\\$/\\1/"`;
                       |set +x
                       |echo TRIGGERING INTEGRATION BUILD 
                       |echo
