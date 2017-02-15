@@ -57,11 +57,12 @@ def intPublish = CartridgeHelper.getShellAuthJob(this, projectFolderName + '/Pub
         'nextCopyArtifactsFromBuild': '${B}',
         'triggerDownstreamJob': projectFolderName + '/NA',
         'jobDescription': 'This job publishes this build to later pipelines',
-        'jobCommand': 'FOLDER=`echo ' + projectFolderName + ''' | sed "s/\\/[^/]\\+$//" | sed "s/\\//\\/job\\//g"`; 
-                          |set +x
-                          |echo TRIGGERING INTEGRATION BUILD 
-                          |echo
-                          |docker exec jenkins curl -s -X POST ${USERNAME_JENKINS}:${PASSWORD_JENKINS}@localhost:8080/jenkins/job/${FOLDER}/job/''' + downstreamName + '/job/Integrated_Build/buildWithParameters?COMPONENT_NAME=Integrated_Build\\&COMPONENT_BUILD_NUMBER=${B}',
+        'jobCommand': 'FOLDER=`echo ' + projectFolderName + ''' | sed "s/\\/[^/]\\+$//" | sed "s/\\//\\/job\\//g"`;
+                      |INT_BUILD_NAME=`echo '''.stripMargin() + projectFolderName + ''' | sed "s/.*\\/\\(\\w\\+\\)$/\\1/"`;
+                      |set +x
+                      |echo TRIGGERING INTEGRATION BUILD 
+                      |echo
+                      |docker exec jenkins curl -s -X POST ${USERNAME_JENKINS}:${PASSWORD_JENKINS}@localhost:8080/jenkins/job/${FOLDER}/job/''' + downstreamName + '/job/Integrated_Build/buildWithParameters?COMPONENT_NAME=$INT_BUILD_NAME\\&COMPONENT_BUILD_NUMBER=${B}',
         ]
 )
 
