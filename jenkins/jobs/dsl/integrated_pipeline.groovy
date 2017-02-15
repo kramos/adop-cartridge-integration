@@ -52,12 +52,11 @@ def intPublish = CartridgeHelper.getShellAuthJob(this, projectFolderName + '/Pub
         'triggerDownstreamJob': projectFolderName + '/NA',
         'jobDescription': 'This job publishes this build to later pipelines',
         'jobCommand': 'FOLDER=`echo ' + projectFolderName + ''' | sed "s/\\//\\/job\\//g"`; 
-                      |set +x
-                      |echo TRIGGERING INTEGRATION BUILD TO PUBLISH THE PRODUCT OF THIS PIPELINE
-                      |echo
-                      |echo TODO RANDOM is not a good name times two
-                      |docker exec jenkins curl -s -X POST ${USERNAME_JENKINS}:${PASSWORD_JENKINS}@localhost:8080/jenkins/job/${FOLDER}/job/${RANDOM}/buildWithParameters?COMPONENT_NAME=${RANDOM}\\&COMPONENT_BUILD_NUMBER=${B}''',
-    ]
+                          |set +x
+                          |echo TRIGGERING INTEGRATION BUILD 
+                          |echo
+                          |docker exec jenkins curl -s -X POST ${USERNAME_JENKINS}:${PASSWORD_JENKINS}@localhost:8080/jenkins/job/${FOLDER}/job/''' + downstreamName + '/job/Integrated_Build/buildWithParameters?COMPONENT_NAME=Integrated_Build\\&COMPONENT_BUILD_NUMBER=${B}',
+        ]
 )
 
 
