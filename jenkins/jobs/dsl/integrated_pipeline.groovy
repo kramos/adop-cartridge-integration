@@ -46,6 +46,12 @@ def intSITTest = CartridgeHelper.getShellJob(this, projectFolderName + '/SIT_Tes
     ]
 )
 
+def downstreamName
+try {
+  downstreamName = "${DOWNSTREAM_FOLDER}"
+} catch (Exception e) {
+  downstreamName = null
+}
 def intPublish = CartridgeHelper.getShellAuthJob(this, projectFolderName + '/Publish', variables + [
         'copyArtifactsFromJob': projectFolderName + '/Integrated_Build',
         'nextCopyArtifactsFromBuild': '${B}',
